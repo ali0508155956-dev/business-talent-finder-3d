@@ -20,14 +20,15 @@ Base: main at 39e72a8492b5304e3d1fa250d3edb6d97ee664ca. Work is isolated on impr
 - Current Render JSON Schema validation passes. Render CLI platform validation was unavailable; the CLI is not installed.
 - Desktop and Persian mobile screenshots were visually inspected. Small-screen improvements were applied after this inspection and the browser suite was rerun successfully.
 
-## Remaining release gates
+## Remote validation and release status
 
-- WebKit/iPhone project is configured in CI but has not been executed locally; real-device checks remain.
-- GitHub Actions has not executed remotely: writes through the GitHub integration return HTTP 403 Resource not accessible by integration. CLI dry-run push also lacked write authentication.
-- No remote branch/PR was created and main is unchanged.
-- No live Render URL is claimed. No Render workspace was selected in the session; discovery returned My Workspace (ali0508155956@gmail.com), requiring explicit selection before deployment.
+- Changes are recorded in PR #1: https://github.com/ali0508155956-dev/business-talent-finder-3d/pull/1
+- GitHub Actions executes syntax checks, build, three data tests and 24 browser checks across desktop Chromium, mobile Chromium and iPhone WebKit. The latest checks on the PR are the authority for the current commit; merge only after they pass.
+- WebKit testing exposed stale offscreen room rendering and mobile scrolling/tap timing. Explicit scene changes now draw synchronously and room navigation scrolls immediately; continuous animation still stops offscreen.
+- My Workspace (ali0508155956@gmail.com) is the confirmed Render destination. Deployment remains blocked by the browser approval gate for Google sign-in; no live Render URL is claimed.
 - Static preview uses noindex and does not change the existing WordPress site or domain.
+- Real-device checks remain useful alongside browser emulation.
 
 ## Continue
 
-Restore GitHub write access or use an authorized browser session to push this branch and open a PR. Run the configured CI, including WebKit, resolve any failures and review the result before merging. Apply the Render configuration in the confirmed workspace, then verify the public URL and asset responses, navigation and outgoing links before declaring the preview live.
+After the current PR checks pass, merge the reviewed changes. Complete the authorized Render login, apply render.yaml in the confirmed workspace, then verify the public URL, asset responses, room navigation and outgoing links before declaring the preview live.

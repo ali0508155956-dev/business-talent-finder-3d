@@ -54,20 +54,21 @@ function drawBusiness(){for(let x of [-4.4,0,4.4]){cube(x,.15,-7.7,3.3,3.8,.7,'#
 function drawNetwork(time){globe3d(0,3.1,-7.6,2.5,time);for(let x of [-6,-3.0,3.0,6]){cube(x,0,-7.1,1.5,.65,1.1,'#3c3225','#5f5438','#b99e68')}for(let x of [-7.1,7.1]){cube(x,0,-3.3,.8,1.8,.8,'#333c31','#686343','#c8ad69')}stageText('GLOBAL CONNECTIONS',0,6.0,-9.2,15)}
 function drawNews(){cube(0,.7,-9.0,13,4.65,.3,'#48392a','#67533a','#bf9a58');panel3d(0,1,-8.75,12.5,4.1,'#272f26','#ad8e5a');for(let j=0;j<4;j++){const x=-4.6+j*3.06;panel3d(x,1.6,-8.45,2.55,2.4,['#ddd1b3','#e8d8ab','#e5d7b7','#d5c4a4'][j],'#c4aa71');stageText('✦',x,3.15,-8.38,20,'#9c7136');line([x-.78,2.38,-8.37],[x+.8,2.38,-8.37],'#847657',1);line([x-.78,2.03,-8.37],[x+.7,2.03,-8.37],'#847657',1)}cube(0,0,-2.5,3,.5,2,'#3a3426','#6c603f','#b7a367')}
 function drawContact(){for(let x of [-4.3,0,4.3]){arch(x,true);cube(x,.2,-6.8,2.5,1.0,1.2,'#2b3229','#584d34','#c6a460');glow(x,3.2,-7.2,135);panel3d(x,1.5,-7.1,1.8,1.5,'#101d19','#d2b478')}cube(0,0,-2,4.4,.57,1.65,'#3c362a','#63513a','#c3a163');stageText('LET US CONNECT',0,5.4,-9,15)}
-let stageVisible=true, frameId=null;
+let stageVisible=true, frameId=null, forceNextDraw=false;
 function requestScene(force=false){
  if(!ctx)return;
+ forceNextDraw=forceNextDraw||force;
  if(frameId!==null)cancelAnimationFrame(frameId);
  frameId=null;
- if(!force&&(!stageVisible||document.hidden))return;
+ if(!forceNextDraw&&(!stageVisible||document.hidden))return;
  frameId=requestAnimationFrame(renderScene);
 }
 if('IntersectionObserver' in window)new IntersectionObserver(entries=>{
  if(entries[0])stageVisible=entries[0].isIntersecting;
- if(stageVisible)requestScene(true);else if(frameId!==null){cancelAnimationFrame(frameId);frameId=null;}
+ if(stageVisible)requestScene(true);else if(frameId!==null&&!forceNextDraw){cancelAnimationFrame(frameId);frameId=null;}
 },{rootMargin:'0px'}).observe($('scene-frame'));
 document.addEventListener('visibilitychange',()=>requestScene());
-function renderScene(ts){frameId=null;if(!ctx)return;if(s.motion&&(!stageVisible||document.hidden))return;if(s.motion&&ts-(s.lastDraw||0)<28){requestScene();return} s.lastDraw=ts;const dt=Math.min(38,ts-s.time||16);s.time=ts;if(s.motion){s.pan+=(s.targetPan-s.pan)*.07;s.py+=(s.targetPy-s.py)*.08;s.fade=Math.max(0,s.fade-.055)}else{s.pan=0;s.py=0;s.fade=0}drawRoomBase();switch(s.room){case'lobby':drawLobby(ts);break;case'store':drawStore();break;case'library':drawLibrary();break;case'academy':drawAcademy();break;case'business':drawBusiness();break;case'network':drawNetwork(ts);break;case'news':drawNews();break;case'contact':drawContact();break}const p=ctx.createLinearGradient(0,0,s.w,s.h);p.addColorStop(0,'rgba(0,0,0,.42)');p.addColorStop(.42,'rgba(0,0,0,0)');p.addColorStop(1,'rgba(0,0,0,.25)');ctx.fillStyle=p;ctx.fillRect(0,0,s.w,s.h);if(s.fade){ctx.fillStyle=`rgba(9,10,9,${s.fade})`;ctx.fillRect(0,0,s.w,s.h)}placeHotspots();canvas.dataset.renderedRoom=s.room;if(s.motion)requestScene()}
+function renderScene(ts){frameId=null;const forced=forceNextDraw;forceNextDraw=false;if(!ctx)return;if(!forced&&s.motion&&(!stageVisible||document.hidden))return;if(!forced&&s.motion&&ts-(s.lastDraw||0)<28){requestScene();return} s.lastDraw=ts;const dt=Math.min(38,ts-s.time||16);s.time=ts;if(s.motion){s.pan+=(s.targetPan-s.pan)*.07;s.py+=(s.targetPy-s.py)*.08;s.fade=Math.max(0,s.fade-.055)}else{s.pan=0;s.py=0;s.fade=0}drawRoomBase();switch(s.room){case'lobby':drawLobby(ts);break;case'store':drawStore();break;case'library':drawLibrary();break;case'academy':drawAcademy();break;case'business':drawBusiness();break;case'network':drawNetwork(ts);break;case'news':drawNews();break;case'contact':drawContact();break}const p=ctx.createLinearGradient(0,0,s.w,s.h);p.addColorStop(0,'rgba(0,0,0,.42)');p.addColorStop(.42,'rgba(0,0,0,0)');p.addColorStop(1,'rgba(0,0,0,.25)');ctx.fillStyle=p;ctx.fillRect(0,0,s.w,s.h);if(s.fade){ctx.fillStyle=`rgba(9,10,9,${s.fade})`;ctx.fillRect(0,0,s.w,s.h)}placeHotspots();canvas.dataset.renderedRoom=s.room;if(s.motion)requestScene()}
 function resize(){const r=canvas.getBoundingClientRect();s.w=r.width;s.h=r.height;s.dpr=Math.min(1.5,window.devicePixelRatio||1);canvas.width=Math.round(s.w*s.dpr);canvas.height=Math.round(s.h*s.dpr);if(ctx)ctx.setTransform(s.dpr,0,0,s.dpr,0,0);else canvas.hidden=true;placeHotspots();requestScene(true)}
 if('ResizeObserver'in window)new ResizeObserver(resize).observe(canvas);
 window.addEventListener('resize',resize);

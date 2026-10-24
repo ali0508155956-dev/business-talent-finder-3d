@@ -18,3 +18,8 @@ html,body{height:100%;overflow:hidden}body{background:#101e1b}.app{height:100dvh
 @media(max-width:600px){.hotspot small{display:none}.host-hotspot{min-width:42px}.room-overlay h1{font-size:27px}.room-nav button .room-name{line-height:1.3}}
 
 .walk-guide{position:absolute;z-index:9;inset-inline-end:24px;bottom:170px;width:min(330px,calc(100% - 48px));padding:20px;background:#0d241df2;color:#f0e7cb;border:1px solid #d6b46088;border-radius:16px;box-shadow:0 14px 50px #0008;line-height:1.8;font-size:13px}.walk-guide p{margin:0 0 14px}.walk-guide button{background:#d6b460;color:#102019;border:0;border-radius:20px;padding:8px 22px}.walk-guide[hidden]{display:none}@media(max-width:600px){.walk-guide{bottom:150px;inset-inline-end:15px;font-size:12px}}
+
+/* Daylit Forever office interior: readable overlays on white architecture. */
+.room-overlay{padding:20px 24px;background:linear-gradient(135deg,#f8faf3ed,#f8faf3b8);border:1px solid #ffffff9c;border-radius:4px 4px 20px 4px;box-shadow:0 12px 45px #152b1c12;backdrop-filter:blur(8px)}.room-overlay h1{color:#193c2e}.room-overlay p{color:#345343;background:none}.room-overline{color:#80642e}.hotspot .pin{background:#f9fcf3e8;color:#214b36;border-color:#a88a44;box-shadow:0 0 20px #fff5}.hotspot small{background:#f9fcf3ed;color:#214331;border-color:#9e84464d}.host-emblem{background:#fffdf4}.world-crosshair{color:#183b2b9c}@media(max-width:600px){.room-overlay{padding:13px 17px;max-width:270px}.room-overlay h1{font-size:25px}.room-overlay{top:135px}}
+
+.room-overlay h1,.room-overlay p{text-shadow:none}

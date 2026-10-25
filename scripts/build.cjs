@@ -6,7 +6,8 @@ const {createHash}=require('node:crypto');
 let html=fs.readFileSync(path.join(out,'index.html'),'utf8');
 for(const asset of ['css/styles.css','js/data.js','js/app.js']){
  const version=createHash('sha256').update(fs.readFileSync(path.join(out,asset))).digest('hex').slice(0,12);
- html=html.replace(`"./${asset}"`,`"./${asset}?v=${version}"`);
+ const reference=`./${asset}`;
+ html=html.replace(new RegExp('"'+reference.replace(/\./g,'\\.')+'[^"\\s]*"'),`"${reference}?v=${version}"`);
 }
 fs.writeFileSync(path.join(out,'index.html'),html);
 console.log('Static site built in dist/');

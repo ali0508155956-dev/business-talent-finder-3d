@@ -219,7 +219,7 @@ async function syncPublicNews(){const abort=new AbortController();const timer=se
 document.querySelector('.top-tools').insertAdjacentHTML('afterbegin','<button type="button" class="resources-toggle" id="resources-toggle" aria-expanded="false">☷ <span data-t="items">Exhibits</span></button>');
 $('collection').insertAdjacentHTML('afterbegin','<button type="button" id="close-resources" class="close-resources" aria-label="Close resources">✕</button>');
 $('scene-frame').insertAdjacentHTML('beforeend','<div class="graphics-notice" id="graphics-notice" hidden>3D graphics are unavailable in this browser. Open the resources to explore all content.</div>');
-function setResources(open){if(open){stopCinema();if(entry.open)closeEntry();}document.body.classList.toggle('resources-open',open);$('resources-toggle').setAttribute('aria-expanded',String(open));world?.stopInput();requestScene();if(open)$('item-search')?.focus({preventScroll:true});}
+function setResources(open){if(open){stopCinema();if(entry.open)closeEntry();}document.body.classList.toggle('resources-open',open);$('resources-toggle').setAttribute('aria-expanded',String(open));world?.stopInput();requestScene();if(open){$('collection').scrollTop=0;$('item-search')?.focus({preventScroll:true});}}
 $('resources-toggle').onclick=()=>setResources(!document.body.classList.contains('resources-open'));
 $('close-resources').onclick=()=>setResources(false);
 window.addEventListener('keydown',e=>{if(e.key==='Escape')setResources(false)});

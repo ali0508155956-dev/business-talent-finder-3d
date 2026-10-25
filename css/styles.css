@@ -72,3 +72,6 @@ body:not(.cinematic-mode) .cinema-hud{bottom:230px;inset-inline-end:25px;inset-i
 @media(prefers-reduced-motion:reduce){.ambient-sparks,.motion-ribbon{display:none}.entry-card:hover{transform:none}.product-picture img{transition:none}}
 /* Small phones can scroll the chooser naturally without moving the 3D stage. */
 .entry-open .scene-frame,.entry-panel{touch-action:pan-y}.entry-panel{overscroll-behavior:contain}
+
+/* Keep movement controls above projected labels at every camera angle. */
+.walk-hud{z-index:8}
